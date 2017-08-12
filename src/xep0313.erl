@@ -810,7 +810,7 @@ decode_mam_query_els(__TopXMLNS, __Opts,
       <<"urn:xmpp:mam:tmp">> ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       Withtext, End, Start, With, Rsm,
-			       decode_mam_billable(<<"urn:xmpp:mam:tmp">>);
+			       decode_mam_billable(<<"urn:xmpp:mam:tmp">>));
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       Withtext, End, Start, With, Rsm, Billable)
