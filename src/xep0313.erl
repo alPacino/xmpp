@@ -711,21 +711,21 @@ encode_mam_archived_attr_by(_val, _acc) ->
 
 decode_mam_query(__TopXMLNS, __Opts,
 		 {xmlel, <<"query">>, _attrs, _els}) ->
-    {Xdata, Withtext, End, Start, With, Rsm} =
+    {Xdata, Withtext, End, Start, With, Rsm, Billable} =
 	decode_mam_query_els(__TopXMLNS, __Opts, _els,
 			     undefined, undefined, undefined, undefined,
-			     undefined, undefined),
+			     undefined, undefined, undefined),
     {Id, Xmlns} = decode_mam_query_attrs(__TopXMLNS, _attrs,
 					 undefined, undefined),
     {mam_query, Xmlns, Id, Start, End, With, Withtext, Rsm,
-     Xdata}.
+     Xdata, Billable}.
 
 decode_mam_query_els(__TopXMLNS, __Opts, [], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
-    {Xdata, Withtext, End, Start, With, Rsm};
+		     Withtext, End, Start, With, Rsm, Billable) ->
+    {Xdata, Withtext, End, Start, With, Rsm, Billable};
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"start">>, _attrs, _} = _el | _els], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
+		     Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -734,14 +734,14 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 			       Withtext, End,
 			       decode_mam_start(<<"urn:xmpp:mam:tmp">>, __Opts,
 						_el),
-			       With, Rsm);
+			       With, Rsm, Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"end">>, _attrs, _} = _el | _els], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
+		     Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -750,14 +750,14 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 			       Withtext,
 			       decode_mam_end(<<"urn:xmpp:mam:tmp">>, __Opts,
 					      _el),
-			       Start, With, Rsm);
+			       Start, With, Rsm, Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"with">>, _attrs, _} = _el | _els], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
+		     Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -766,14 +766,14 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 			       Withtext, End, Start,
 			       decode_mam_with(<<"urn:xmpp:mam:tmp">>, __Opts,
 					       _el),
-			       Rsm);
+			       Rsm, Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"withtext">>, _attrs, _} = _el | _els],
-		     Xdata, Withtext, End, Start, With, Rsm) ->
+		     Xdata, Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -781,14 +781,14 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       decode_mam_withtext(<<"urn:xmpp:mam:tmp">>,
 						   __Opts, _el),
-			       End, Start, With, Rsm);
+			       End, Start, With, Rsm, Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"set">>, _attrs, _} = _el | _els], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
+		     Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -796,14 +796,28 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       Withtext, End, Start, With,
 			       xep0059:decode_rsm_set(<<"http://jabber.org/protocol/rsm">>,
-						      __Opts, _el));
+						      __Opts, _el), Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
+    end;
+decode_mam_query_els(__TopXMLNS, __Opts,
+		     [{xmlel, <<"billable">>, _attrs, _} = _el | _els], Xdata,
+		     Withtext, End, Start, With, Rsm, Billable) ->
+    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
+			     __TopXMLNS)
+	of
+      <<"urn:xmpp:mam:tmp">> ->
+	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
+			       Withtext, End, Start, With, Rsm,
+			       decode_mam_billable(<<"urn:xmpp:mam:tmp">>);
+      _ ->
+	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts,
 		     [{xmlel, <<"x">>, _attrs, _} = _el | _els], Xdata,
-		     Withtext, End, Start, With, Rsm) ->
+		     Withtext, End, Start, With, Rsm, Billable) ->
     case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
 			     __TopXMLNS)
 	of
@@ -811,15 +825,15 @@ decode_mam_query_els(__TopXMLNS, __Opts,
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els,
 			       xep0004:decode_xdata(<<"jabber:x:data">>, __Opts,
 						    _el),
-			       Withtext, End, Start, With, Rsm);
+			       Withtext, End, Start, With, Rsm, Billable);
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			       Withtext, End, Start, With, Rsm)
+			       Withtext, End, Start, With, Rsm, Billable)
     end;
 decode_mam_query_els(__TopXMLNS, __Opts, [_ | _els],
-		     Xdata, Withtext, End, Start, With, Rsm) ->
+		     Xdata, Withtext, End, Start, With, Rsm, Billable) ->
     decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
-			 Withtext, End, Start, With, Rsm).
+			 Withtext, End, Start, With, Rsm, Billable).
 
 decode_mam_query_attrs(__TopXMLNS,
 		       [{<<"queryid">>, _val} | _attrs], _Id, Xmlns) ->
@@ -835,7 +849,7 @@ decode_mam_query_attrs(__TopXMLNS, [], Id, Xmlns) ->
      decode_mam_query_attr_xmlns(__TopXMLNS, Xmlns)}.
 
 encode_mam_query({mam_query, Xmlns, Id, Start, End,
-		  With, Withtext, Rsm, Xdata},
+		  With, Withtext, Rsm, Xdata, Billable},
 		 __TopXMLNS) ->
     __NewTopXMLNS = xmpp_codec:choose_top_xmlns(Xmlns,
 						[<<"urn:xmpp:mam:0">>,
@@ -854,7 +868,10 @@ encode_mam_query({mam_query, Xmlns, Id, Start, End,
 																			   __NewTopXMLNS,
 																			   'encode_mam_query_$rsm'(Rsm,
 																						   __NewTopXMLNS,
-																						   []))))))),
+																						   'encode_mam_query_$billable'(Billable,
+																										__NewTopXMLNS,
+																										[])))))))),
+
     _attrs = encode_mam_query_attr_queryid(Id,
 					   xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
 								      __TopXMLNS)),
@@ -893,6 +910,11 @@ encode_mam_query({mam_query, Xmlns, Id, Start, End,
     _acc;
 'encode_mam_query_$rsm'(Rsm, __TopXMLNS, _acc) ->
     [xep0059:encode_rsm_set(Rsm, __TopXMLNS) | _acc].
+
+'encode_mam_query_$billable'(undefined, __TopXMLNS, _acc) ->
+    _acc;
+'encode_mam_query_$billable'(Billable, __TopXMLNS, _acc) ->
+    [encode_mam_billable(Billable, __TopXMLNS) | _acc].
 
 decode_mam_query_attr_queryid(__TopXMLNS, undefined) ->
     <<>>;
@@ -980,6 +1002,9 @@ decode_mam_with_cdata(__TopXMLNS, _val) ->
 encode_mam_with_cdata(_val, _acc) ->
     [{xmlcdata, jid:encode(_val)} | _acc].
 
+encode_mam_billable_cdata(_val, _acc) ->
+    [{xmlcdata, jid:encode(_val)} | _acc].
+
 decode_mam_end(__TopXMLNS, __Opts,
 	       {xmlel, <<"end">>, _attrs, _els}) ->
     Cdata = decode_mam_end_els(__TopXMLNS, __Opts, _els,
@@ -1054,6 +1079,31 @@ decode_mam_start_cdata(__TopXMLNS, _val) ->
 			{bad_cdata_value, <<>>, <<"start">>, __TopXMLNS}});
       _res -> _res
     end.
+
+encode_mam_billable(Cdata, __TopXMLNS) ->
+    __NewTopXMLNS = choose_top_xmlns(<<"urn:xmpp:mam:tmp">>,
+                     [], __TopXMLNS),
+    _els = encode_mam_billable_cdata(Cdata, []),
+    _attrs = enc_xmlns_attrs(__NewTopXMLNS, __TopXMLNS),
+    {xmlel, <<"billable">>, _attrs, _els}.
+
+decode_mam_billable(__TopXMLNS, __IgnoreEls,
+		    {xmlel, <<"billable">>, _attrs, _els}) ->
+    Cdata = decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
+				    _els, <<>>),
+    Cdata.
+
+decode_mam_billable_els(__TopXMLNS, __IgnoreEls, [],
+			Cdata) ->
+    decode_mam_billable_cdata(__TopXMLNS, Cdata);
+decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
+			[{xmlcdata, _data} | _els], Cdata) ->
+    decode_mam_billable_els(__TopXMLNS, __IgnoreEls, _els,
+			    <<Cdata/binary, _data/binary>>);
+decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
+			[_ | _els], Cdata) ->
+    decode_mam_billable_els(__TopXMLNS, __IgnoreEls, _els,
+			    Cdata).
 
 encode_mam_start_cdata(_val, _acc) ->
     [{xmlcdata, enc_utc(_val)} | _acc].
