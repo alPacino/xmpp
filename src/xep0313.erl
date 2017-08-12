@@ -810,7 +810,8 @@ decode_mam_query_els(__TopXMLNS, __Opts,
       <<"urn:xmpp:mam:tmp">> ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       Withtext, End, Start, With, Rsm,
-			       decode_mam_billable(<<"urn:xmpp:mam:tmp">>));
+			       decode_mam_billable(<<"urn:xmpp:mam:tmp">>,
+						   __Opts, _el));
       _ ->
 	  decode_mam_query_els(__TopXMLNS, __Opts, _els, Xdata,
 			       Withtext, End, Start, With, Rsm, Billable)
@@ -1087,11 +1088,10 @@ encode_mam_billable(Cdata, __TopXMLNS) ->
     _attrs = enc_xmlns_attrs(__NewTopXMLNS, __TopXMLNS),
     {xmlel, <<"billable">>, _attrs, _els}.
 
-decode_mam_billable(__TopXMLNS, __IgnoreEls,
+decode_mam_billable(__TopXMLNS, __Opts,
 		    {xmlel, <<"billable">>, _attrs, _els}) ->
-    Cdata = decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
-				    _els, <<>>),
-    Cdata.
+    decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
+			    _els, <<>>).
 
 decode_mam_billable_els(__TopXMLNS, __IgnoreEls, [],
 			Cdata) ->
@@ -1104,6 +1104,11 @@ decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
 			[_ | _els], Cdata) ->
     decode_mam_billable_els(__TopXMLNS, __IgnoreEls, _els,
 			    Cdata).
+
+decode_mam_billable_cdata(__TopXMLNS, <<>>) ->
+    erlang:error({xmpp_codec,
+		  {missing_cdata, <<>>, <<"billable">>, __TopXMLNS}});
+decode_mam_billable_cdata(__TopXMLNS, _val) -> _val.
 
 encode_mam_start_cdata(_val, _acc) ->
     [{xmlcdata, enc_utc(_val)} | _acc].
