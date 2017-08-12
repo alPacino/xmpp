@@ -1082,15 +1082,15 @@ decode_mam_start_cdata(__TopXMLNS, _val) ->
     end.
 
 encode_mam_billable(Cdata, __TopXMLNS) ->
-    __NewTopXMLNS = choose_top_xmlns(<<"urn:xmpp:mam:tmp">>,
+    __NewTopXMLNS = xmpp_codec:choose_top_xmlns(<<"urn:xmpp:mam:tmp">>,
                      [], __TopXMLNS),
     _els = encode_mam_billable_cdata(Cdata, []),
-    _attrs = enc_xmlns_attrs(__NewTopXMLNS, __TopXMLNS),
+    _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS, __TopXMLNS),
     {xmlel, <<"billable">>, _attrs, _els}.
 
 decode_mam_billable(__TopXMLNS, __Opts,
 		    {xmlel, <<"billable">>, _attrs, _els}) ->
-    decode_mam_billable_els(__TopXMLNS, __IgnoreEls,
+    decode_mam_billable_els(__TopXMLNS, __Opts,
 			    _els, <<>>).
 
 decode_mam_billable_els(__TopXMLNS, __IgnoreEls, [],
