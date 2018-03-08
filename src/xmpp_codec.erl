@@ -1105,6 +1105,9 @@ get_mod(<<"after">>,
 	<<"http://jabber.org/protocol/rsm">>) ->
     xep0059;
 get_mod(<<"query">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"chats-list">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
+get_mod(<<"chat-details">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
+get_mod(<<"message">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"account-disabled">>,
 	<<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
     rfc6120;
