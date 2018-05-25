@@ -814,7 +814,8 @@
                     with :: undefined | jid:jid(),
                     withtext :: 'undefined' | binary(),
                     rsm :: 'undefined' | #rsm_set{},
-                    xdata :: 'undefined' | #xdata{}}).
+                    xdata :: 'undefined' | #xdata{},
+                    billable :: binary()}).
 -type mam_query() :: #mam_query{}.
 
 -record(pubsub_owner, {affiliations :: 'undefined' | {binary(),[#ps_affiliation{}]},
