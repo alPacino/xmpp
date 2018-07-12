@@ -301,7 +301,7 @@ get_mod(<<"media">>, <<"urn:xmpp:media-element">>) ->
     xep0221;
 get_mod(<<"KEYWORD">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"result">>, <<"urn:xmpp:mam:tmp">>) ->
-    xep0313;
+    mod_mam_appclose;
 get_mod(<<"active">>, <<"urn:xmpp:csi:0">>) -> xep0352;
 get_mod(<<"slot">>, <<"urn:xmpp:http:upload">>) ->
     xep0363;
@@ -339,7 +339,7 @@ get_mod(<<"query">>,
     xep0065;
 get_mod(<<"displayed">>, <<"jabber:x:event">>) ->
     xep0022;
-get_mod(<<"start">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"start">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"received">>, <<"urn:xmpp:carbons:2">>) ->
     xep0280;
 get_mod(<<"x">>, <<"jabber:x:event">>) -> xep0022;
@@ -352,7 +352,7 @@ get_mod(<<"x">>, <<"vcard-temp:x:update">>) -> xep0153;
 get_mod(<<"purge">>,
 	<<"http://jabber.org/protocol/pubsub">>) ->
     xep0060;
-get_mod(<<"with">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"with">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"address">>, <<"urn:xmpp:sic:0">>) -> xep0279;
 get_mod(<<"put">>,
 	<<"eu:siacs:conversations:http:upload">>) ->
@@ -389,7 +389,7 @@ get_mod(<<"r">>, <<"urn:xmpp:sm:3">>) -> xep0198;
 get_mod(<<"query">>, <<"jabber:iq:version">>) ->
     xep0092;
 get_mod(<<"archived">>, <<"urn:xmpp:mam:tmp">>) ->
-    xep0313;
+    mod_mam_appclose;
 get_mod(<<"next">>,
 	<<"http://jabber.org/protocol/commands">>) ->
     xep0050;
@@ -1042,7 +1042,7 @@ get_mod(<<"invalid-xml">>,
     rfc6120;
 get_mod(<<"PCODE">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"LAT">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"never">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"never">>, <<"urn:xmpp:mam:tmp">>) -> mod_mama_appclose;
 get_mod(<<"enable">>, <<"urn:xmpp:sm:3">>) -> xep0198;
 get_mod(<<"size">>,
 	<<"eu:siacs:conversations:http:upload">>) ->
@@ -1072,7 +1072,7 @@ get_mod(<<"UID">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"required">>, <<"jabber:x:data">>) -> xep0004;
 get_mod(<<"result">>, <<"urn:xmpp:mam:0">>) -> xep0313;
 get_mod(<<"TEL">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"prefs">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"prefs">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"captcha">>, <<"urn:xmpp:captcha">>) ->
     xep0158;
 get_mod(<<"identity">>,
@@ -1112,7 +1112,7 @@ get_mod(<<"unique">>,
 get_mod(<<"after">>,
 	<<"http://jabber.org/protocol/rsm">>) ->
     xep0059;
-get_mod(<<"query">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"query">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"chats-list">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"chat-details">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"message">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
@@ -1167,7 +1167,7 @@ get_mod(<<"actor">>,
 	<<"http://jabber.org/protocol/muc#admin">>) ->
     xep0045;
 get_mod(<<"withtext">>, <<"urn:xmpp:mam:tmp">>) ->
-    xep0313;
+    mod_mam_appclose;
 get_mod(<<"username">>, <<"jabber:iq:auth">>) ->
     xep0078;
 get_mod(<<"required">>,
@@ -1218,7 +1218,7 @@ get_mod(<<"stat">>,
 	<<"http://jabber.org/protocol/stats">>) ->
     xep0039;
 get_mod(<<"always">>, <<"urn:xmpp:mam:tmp">>) ->
-    xep0313;
+    mod_mam_appclose;
 get_mod(<<"desc">>, <<"jabber:x:oob">>) -> xep0066;
 get_mod(<<"thread">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"host-unknown">>,
@@ -1261,7 +1261,7 @@ get_mod(<<"LABEL">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"purge">>,
 	<<"http://jabber.org/protocol/pubsub#owner">>) ->
     xep0060;
-get_mod(<<"jid">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"jid">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"prefs">>, <<"urn:xmpp:mam:0">>) -> xep0313;
 get_mod(<<"forwarded">>, <<"urn:xmpp:forward:0">>) ->
     xep0297;
@@ -1314,7 +1314,7 @@ get_mod(<<"restricted-xml">>,
 	<<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
     rfc6120;
 get_mod(<<"HOME">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"end">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
+get_mod(<<"end">>, <<"urn:xmpp:mam:tmp">>) -> mod_mam_appclose;
 get_mod(<<"iq">>, <<"jabber:iq:privacy">>) -> xep0016;
 get_mod(<<"list">>, <<"jabber:iq:privacy">>) -> xep0016;
 get_mod(<<"CATEGORIES">>, <<"vcard-temp">>) -> xep0054;

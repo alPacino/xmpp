@@ -812,10 +812,11 @@
                     start :: undefined | erlang:timestamp(),
                     'end' :: undefined | erlang:timestamp(),
                     with :: undefined | jid:jid(),
-                    withtext :: 'undefined' | binary(),
+                    withtext = <<>> :: binary(),
                     rsm :: 'undefined' | #rsm_set{},
                     xdata :: 'undefined' | #xdata{},
-                    billable :: binary()}).
+                    billable = <<>> :: binary(),
+		    chat_uuid = <<>> :: binary()}).
 -type mam_query() :: #mam_query{}.
 
 -record(pubsub_owner, {affiliations :: 'undefined' | {binary(),[#ps_affiliation{}]},
